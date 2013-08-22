@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>CRUD</title>
+    </h:head>
+      <h:form id="prueba" >
+             <p:growl autoUpdate="true" globalOnly="true" id="msgPrincipal"></p:growl>
+            <p:layout style="min-width:1000px;min-height:1000px;" id="layout">
+
+            <p:layoutUnit position="north" size="100" header="CRUD" resizable="true" closable="true" collapsible="true">  
+                <h:outputText value="North unit content." />  
+            </p:layoutUnit> 
+                
+            <p:layoutUnit position="west" resizable="true" size="400" minSize="100" maxSize="300">  
+                 <ui:include src="/includes/Guardar.xhtml"/>  
+            </p:layoutUnit> 
+              <p:layoutUnit position="east" resizable="true" size="400" minSize="100" maxSize="300">  
+                        <ui:include src="/includes/Datos_Generales.xhtml"/>  
+            </p:layoutUnit>
+        
+
+                <p:layoutUnit position="center"  maxSize="500">   
+
+
+                <p:panel  header="Datos Generales" id="idtabla"> 
+                    
+               
+                    <div align="left">
+                        <p:commandButton value="Buscar" actionListener="#{controlador.consulta()}" update="idtabla" process="@this"/>
+                    </div>
+                    <br/>
+               
+                    <p:dataTable id="tabla" var="per" value="#{controlador.listaPersonas}" paginator="true" emptyMessage="No hay Registros" editable="true"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rows="10" rowsPerPageTemplate="5,10">
+                        <p:ajax event="rowEdit" listener="#{controlador.editar(per)}" update="tabla"  process="@this"/>  
+                                        <f:facet name="header">  
+                                                    Personas  
+                                        </f:facet>
+
+                          
+                                <p:column  filterBy="#{per.nombre}" sortBy="#{per.nombre}" width="200">  
+                                         <f:facet name="header">
+                                                             Nombre
+                                         </f:facet>
+                                       <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{per.nombre}" />
+                                        </f:facet>   
+                                        <f:facet name="input">
+                                            <p:inputText value="#{per.nombre}" style="width:100%"/>     
+                                        </f:facet>   
+                                     </p:cellEditor> 
+                                    </p:column> 
+                          
+
+                                <p:column filterBy="#{per.apellido}" sortBy="#{per.apellido}" width="200">
+                                        <f:facet name="header">
+                                                             Apellido
+                                         </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                      <h:outputText value="#{per.apellido}" />
+                                        </f:facet>   
+                                        <f:facet name="input">
+                                        <p:inputText value="#{per.apellido}" style="width:100%"/>     
+                                        </f:facet>   
+                                     </p:cellEditor> 
+                                    </p:column>
+
+                                <p:column filterBy="#{per.edad}" sortBy="#{per.edad}" width="200" >
+                                        <f:facet name="header">
+                                                             Edad
+                                         </f:facet>
+                                           <p:cellEditor>  
+                                            <f:facet name="output">  
+                                                <h:outputText value="#{per.edad}" />  
+                                            </f:facet>  
+                                            <f:facet name="input">  
+                                                <p:inputText value="#{per.edad}" style="width:100%"/>  
+                                            </f:facet>  
+                                        </p:cellEditor>
+                                    </p:column>
+                                
+                        <p:column filterBy="#{per.telefono}" sortBy="#{per.telefono}" width="200" >
+                                        <f:facet name="header">
+                                                             Telefono
+                                         </f:facet>
+                                           <p:cellEditor>  
+                                            <f:facet name="output">  
+                                                <h:outputText value="#{per.telefono}" />  
+                                            </f:facet>  
+                                            <f:facet name="input">  
+                                                <p:inputText value="#{per.telefono}" style="width:100%"/>  
+                                            </f:facet>  
+                                        </p:cellEditor>
+                                    </p:column>
+
+                                <p:column filterBy="#{per.fechaNacimiento}" sortBy="#{per.fechaNacimiento}" width="200">
+                                        <f:facet name="header">
+                                                             Fecha Nacimiento
+                                         </f:facet>
+                                        <p:cellEditor>  
+                                            <f:facet name="output">  
+                                                <h:outputText value="#{per.fechaNacimiento}" />  
+                                            </f:facet>  
+                                            <f:facet name="input">  
+                                                <p:calendar value="#{per.fechaNacimiento}" pattern="yyyy/MM/dd" style="width:100%" />  
+                                            </f:facet>  
+                                        </p:cellEditor>
+                                    </p:column>
+                                
+                                <p:column style="width:6%">  
+                                    <p:rowEditor />  
+                                </p:column>  
+                          </p:dataTable>
+                </p:panel>
+               	<p:dialog id="dlgDetalle" 
+                          widgetVar="wvDlgDetalle" appendToBody="true"
+                          header="Detalles" width="600" modal="true"
+			minHeight="500">
+                            <h:panelGroup id="pnlDetalles">
+				<ui:include src="/includes/Detalles.xhtml" />
+                            </h:panelGroup>
+		</p:dialog> 
+                
+                <p:confirmDialog id="dlgSalirSinGuardar" appendToBody="true"
+				message="La información no ha sido guardada ¿Desea salir?"
+				header="Salir sin guardar" severity="alert"
+				widgetVar="wvDlgSalirSinGuardar">
+				<p:commandButton value="Si" process="@this"
+					icon="ui-icon-play" oncomplete="wvDlgDetalle.hide()"/>
+				<p:commandButton value="No" oncomplete="wvDlgSalirSinGuardar.hide()" process="@this"
+					icon="ui-icon-stop" />
+		</p:confirmDialog>
+                
+            
+          </p:layoutUnit>  
+            <p:layoutUnit position="south" resizable="true" size="200" minSize="100" maxSize="300">  
+                     <div >
+                    <p:commandButton id="ver" value="Dialog" icon="ui-icon-search" update="prueba" oncomplete="Wprueba.show();" 
+                                     actionListener="#{controlador.actualizar()}" process="@this"/>  
+                    </div>
+                    
+                    <p:dialog id="prueba" widgetVar="Wprueba" width="200" header="Basic Dialog" >
+               
+                    </p:dialog>
+            </p:layoutUnit>
+        </p:layout> 
+             </h:form>
+</html>
+

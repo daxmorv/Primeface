@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+   
+
+    <ui:define name="pageHead">
+        <h:outputScript name="jquery-1.6.4.min.js" library="javascript" />
+        <h:outputScript name="jquery.maskedinput-1.3.js" library="javascript" />
+		<style>
+		/*estilos  v0.08*/
+		input[type="text"], input.ui-column-filter {
+			text-transform: uppercase;
+		}
+		</style>
+                
+                
+                 <script>
+                   jQuery(function($){
+                      $("#date").mask("99/99/9999");
+                      $("#phone").mask("(999) 999-9999");
+                      $("#tin").mask("99-9999999");
+                      $("#ssn").mask("999-99-9999");
+                  });
+               </script>
+    </ui:define>
+
+    
+                <p:growl autoUpdate="true" globalOnly="true" id="msgGuardar2"></p:growl>
+             
+                <p:panel  header="Datos Generales" id="pnldatos">
+                    <p:dataTable id="idpersona" var="p" value="#{controlador.listaPersonas}" rowKey="#{p.id}" selection="#{controlador.personaSeleccionada}" selectionMode="single"
+                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                  rows="10" paginator="true">  
+
+                        <p:column headerText="Nombre">  
+                            #{p.nombre}  
+                        </p:column>  
+
+                        <p:column headerText="Apellido">  
+                            #{p.apellido}  
+                        </p:column>  
+
+                    </p:dataTable>  
+                    
+                 <div >
+               <p:commandButton id="viewButton" value="View" icon="ui-icon-search" update="idprueba "
+                                    oncomplete="Wdvprueba.show();" actionListener="#{controlador.actualizar()}" process="@this,idpersona"/>  
+                </div>
+
+
+                <p:dialog id="idprueba" widgetVar="Wdvprueba" width="200" header="Basic Dialog">  
+                    <h:outputText value="Resistance to PrimeFaces is futile!" /> 
+                </p:dialog> 
+             
+                </p:panel>
+                <p:calendar id="date" />
+
+                    
+</html>

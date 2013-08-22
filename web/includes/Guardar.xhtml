@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+   
+
+   
+
+    <ui:define name="pageHead">
+		<style>
+		/*estilos  v0.08*/
+		input[type="text"], input.ui-column-filter {
+			text-transform: uppercase;
+		}
+		</style>
+                
+
+   </ui:define>
+  
+
+        <h:form id="frmagregar">
+                <p:growl autoUpdate="true" globalOnly="true" id="msgGuardar"></p:growl>
+             
+                <p:panel  header="Agregar" id="idagregar">
+       
+               
+                        <p:outputLabel value="Nombre" for="idnombre"/>
+                        <p:inputText value="#{controlador.nombre}" id="idnombre" required="true"
+                                     requiredMessage="Este campo es obligatorio" maxlength="20" />
+                        <p:message for="idnombre" id="idmsj" />
+                        <p:outputLabel value="Apellido"/>
+                        <p:inputText value="#{controlador.apellido}"/>
+
+                        <p:outputLabel value="Edad"/>
+                        <p:inputText value="#{controlador.edad}"/>
+
+                        <p:outputLabel value="Fecha Nacimiento" for="idfecha"/>
+                        <p:calendar value="#{controlador.fecha}" id="idfecha" pattern="yyyy/MM/dd" required="true">
+                   
+                        </p:calendar>  
+
+
+                        <p:outputLabel value="Telefono"/>
+                        <p:inputText value="#{controlador.telefono}"/>
+                        
+                </p:panel>
+                 <br/>
+                 <div>   
+                     <p:commandButton actionListener="#{controlador.guardar()}" value="Agregar" update="frmagregar idagregar" process="@this"/>         
+                 </div>
+       </h:form>       
+
+</html>
